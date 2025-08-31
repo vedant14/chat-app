@@ -1,0 +1,151 @@
+/* General Body & Container Styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: #e5ddd5; /* WhatsApp-like background */
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #1c1e21;
+}
+
+.editor-container {
+  background-color: #f0f2f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 700px;
+  overflow: scroll;
+  min-height: 50vh;
+  border: 4px solid #fff;
+}
+
+/* Tiptap Editor Styles */
+.tiptap {
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Space between bubbles */
+}
+
+.tiptap p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Base Message Node Wrapper */
+.message-node {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* --- ALIGNMENT & BUBBLE STYLES --- */
+
+/* Messages from 'me' (right-aligned) */
+.message-node[data-author="me"] {
+  justify-content: flex-end;
+  flex-direction: row-reverse; /* Swaps order of controls and bubble */
+}
+.message-node[data-author="me"] .bubble-content {
+  background-color: #dcf8c6;
+  border-top-right-radius: 4px; /* Simulates a bubble tail */
+}
+
+/* Messages from others (left-aligned) */
+.message-node[data-author="them"],
+.message-node[data-author="bot"] {
+  justify-content: flex-end;
+}
+.message-node[data-author="them"] .bubble-content {
+  background-color: #ffffff;
+  border-top-left-radius: 4px;
+}
+.message-node[data-author="bot"] .bubble-content {
+  background-color: #e8f5e9;
+  border-top-left-radius: 4px;
+}
+
+/* The Bubble Itself */
+.bubble-content {
+  padding: 0.5rem 0.75rem;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Controls (Drag Handle & Delete) */
+.message-controls {
+  display: flex;
+  gap: 0.25rem;
+  visibility: hidden; /* Hide by default, show on parent hover */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+.message-node:hover .message-controls {
+  visibility: visible;
+  opacity: 1;
+}
+
+.drag-handle,
+.delete-button {
+  cursor: pointer;
+  color: #8a8d91;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drag-handle {
+  cursor: grab;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+.delete-button:hover {
+  color: #ff3b30;
+}
+
+/* Author Select Dropdown */
+.author-select {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+.message-node[data-author="me"] .author-select {
+  color: #3e712c;
+}
+.message-node[data-author="them"] .author-select {
+  color: #4a4a4a;
+}
+.message-node[data-author="bot"] .author-select {
+  color: #2e7d32;
+}
+
+/* --- DRAG & DROP STYLES --- */
+.ProseMirror-dropcursor {
+  border-top: 3px dashed #007bff;
+  width: 100%;
+}
+.ProseMirror-dragging .message-node {
+  opacity: 0.3;
+}
+.ProseMirror-dragging .bubble-content {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
